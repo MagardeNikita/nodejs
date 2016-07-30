@@ -8,7 +8,9 @@ output.readable=true;
 output.writable=true;
 
 /*---------------------------creating frst json file------------------------------*/
-
+var output1=fs.createWriteStream('result1.json');
+output1.readable=true;
+output1.writable=true;
 
 
 console.log("magarde");
@@ -30,6 +32,7 @@ var finalarray=[];
    
    
       var brr=[];
+	  var arr=[];
 
 
     /*---------------------------function foe reading line by line------------------------------*/
@@ -68,7 +71,7 @@ var finalarray=[];
 
 /*---------------------------main logic for conditions------------------------------*/
  var obj={};
-  //  var obj1={};
+  var obj1={};
   //console.log(line1[2]);
   for(var k=0;k<Asian_C.length;k++)
   {
@@ -77,7 +80,7 @@ var finalarray=[];
       if((line1[yearIndex]>=1960)&&(line1[yearIndex]<=2015))
       {
 
-/*---------------------------for total expectancy------------------------------*/
+/*---------------------------for male and female expectancy------------------------------*/
         if((line1[IndicatorNameIndex]==="Life expectancy at birth, male (years)")||(line1[IndicatorNameIndex]==="Life expectancy at birth, female (years)"))
         {
           if((line1[yearIndex]>=1960)&&(lineInfo[yearIndex]<=2015))
@@ -93,18 +96,47 @@ var finalarray=[];
 
             }
             brr.push(obj);
-          //  var data=JSON.stringify(obj);
-
-           // console.log(obj);
+         
           }
         }
 
-/*---------------------------for male and femal expectancy------------------------------*/
+
 
     }
   }
 
 }
+
+
+
+
+ for(var k=0;k<Asian_C.length;k++)
+  {
+    if(line1[countryIndex]===Asian_C[k])
+    {
+      if((line1[yearIndex]>=1960)&&(line1[yearIndex]<=2015))
+      {
+
+
+        if((line1[IndicatorNameIndex]==="Life expectancy at birth, total (years)"))
+         {
+
+           for(var j=0;j<coloumnamearray.length;j++)
+            {
+              obj1[coloumnamearray[j]]=line1[j];
+            }
+            arr.push(obj1);
+           
+
+
+      }
+    }
+  }
+
+}
+
+
+
 
   }
 }
@@ -148,11 +180,68 @@ var finalarray=[];
   
  
   output.write(JSON.stringify(brr1));
+  
+  
+  
+   var arr1=[];
+for (var i = 0; i < Asian_C.length; i++) {
+
+  var cname=Asian_C[i];
+  var count2=0;
+  var count3=0;
+  //console.log(arr.length);
+  for (var k = 0; k < arr.length; k++) {
+
+    //console.log("nik");
+    if(cname===(arr[k].CountryName))
+    {
+      console.log("hello");
+      count2 += parseFloat(arr[k].Value);
+      count3++;
+      console.log(count2);
+    //  count3=count3+1;
+  }
+
+    
+  }
+  
+  arr1.push({"countryName":cname,"total":parseFloat(count2)/count3});
+  //console.log(arr[0].CountryName);
+
+  //console.log(count3);
+
+} 
+//var arr2=JSON.stringify(arr1);
+//var arr3=[];
+arr1.sort(function(obj1, obj2) {
+	// Ascending: first age less than the previous
+	return obj2.total - obj1.total;
+});
+var arr2=[];
+for(var i=0;i<5;i++)
+{
+	arr2[i]=arr1[i];
+}
+ // output1.write(JSON.stringify(arr1));
+ output1.write(JSON.stringify(arr2));
+
+
+
+
+});
+
+  
+  
+  
+  
+  
+  
+  
   //console.log(finalarray);
 //  output.write("]");
 //  output1.write("]");
   //process.exit(0);
-});
+
 
 /*---------------------------this will print frst on the console bcos rl.online is a asyn funcion..so we
 cant hold the data which we retrieved inside the rl.on fn..thatswhy performing evry operation der only

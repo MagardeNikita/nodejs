@@ -58,7 +58,7 @@ d3.json("result1.json", function(error, data){
           'width' : xScale.rangeBand(),
           'height' : function(d){  return height - yScale(d.total);}
       })
-      .style("fill",function(d,i){ return 'rgb(30,30,' + ((i * 30) + 200) +')'});
+      .style("fill",function(d,i){ return 'rgb(255,255,0)'});
 
 // label the bars
   svg.selectAll('text')
@@ -82,7 +82,7 @@ d3.json("result1.json", function(error, data){
         .attr("dy","3em")
         .style("font-weight","bold")
         .style("text-anchor","end")
-        .style("fill","steelblue");
+        .style("fill","red");
     svg.append("g")
         .attr("class","y axis")
         .call(yAxis)
@@ -92,5 +92,5 @@ d3.json("result1.json", function(error, data){
         .attr("dx","-2em")
         .attr("dy","1.4em")
           .style("font-weight","bold")
-          .style("fill","steelblue");
+          .style("fill","red");
 });
